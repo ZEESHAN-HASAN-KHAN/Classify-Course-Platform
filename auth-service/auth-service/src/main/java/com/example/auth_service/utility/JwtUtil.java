@@ -11,9 +11,11 @@ public class JwtUtil {
 
     private final String SECRET = "my-secret-key";
 
-    public String generateToken(String username) {
+    public String generateToken(String username, Long userId, String role) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("userId", userId)
+                .claim("role", role)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .signWith(SignatureAlgorithm.HS256, SECRET)
