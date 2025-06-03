@@ -24,6 +24,18 @@ public class JwtFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
+        // ✅ Add CORS headers
+        res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+        res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+
+        // ✅ Skip JWT check for preflight requests
+        if (req.getMethod().equalsIgnoreCase("OPTIONS")) {
+            res.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+
         String path = req.getRequestURI();
 
         // ✅ Allow public routes
@@ -32,7 +44,7 @@ public class JwtFilter implements Filter {
             return;
         }
 
-        // ✅ Get token
+        // ✅ JWT check
         String authHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -49,4 +61,5 @@ public class JwtFilter implements Filter {
 
         chain.doFilter(request, response);
     }
+
 }

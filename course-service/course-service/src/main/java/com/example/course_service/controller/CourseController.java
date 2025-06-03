@@ -15,8 +15,13 @@ import  com.example.course_service.model.Enrollment;
 
 import java.util.List;
 
+
+
 @RestController
+
 @RequestMapping("/courses")
+
+
 public class CourseController {
     @Autowired
     private CourseService service;
@@ -26,6 +31,7 @@ public class CourseController {
     CourseRepository courseRepository;
     @Autowired
     EnrollmentRepository enrollmentRepo;
+
     @GetMapping
     public ResponseEntity<List<Course>> getCourses(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.substring(7);
@@ -43,6 +49,7 @@ public class CourseController {
     @GetMapping("/{id}")
     public Course getCourse(@PathVariable Long id)
     {
+        System.out.println("COming to Get COurse");
         return service.getCourse(id);
     }
     @PostMapping

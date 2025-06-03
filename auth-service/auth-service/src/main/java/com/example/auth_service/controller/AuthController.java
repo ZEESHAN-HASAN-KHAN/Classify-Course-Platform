@@ -11,12 +11,13 @@ public class AuthController {
 
     @Autowired
     private AuthService service;
-
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/signup")
     public String signup(@RequestBody AuthUser user) {
         return service.register(user);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/login")
     public String login(@RequestBody AuthUser user) {
         return service.authenticate(user);
